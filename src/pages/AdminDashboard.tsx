@@ -14,7 +14,8 @@ import {
   Download,
   Filter,
   X,
-  LogOut
+  LogOut,
+  Users
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -80,7 +81,7 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading submissions...</p>
@@ -91,9 +92,9 @@ const AdminDashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="text-red-500 mb-4">Error loading submissions: {error}</div>
+          <div className="text-destructive mb-4">Error loading submissions: {error}</div>
           <Button onClick={() => window.location.reload()}>Retry</Button>
         </div>
       </div>
@@ -101,16 +102,24 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b bg-white shadow-sm">
+      <div className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-gray-600 mt-1 text-sm sm:text-base">Review and manage vendor compliance submissions</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">DPO Vendor Compliance</h1>
+              <p className="text-muted-foreground mt-1 text-sm sm:text-base">Review and manage vendor compliance submissions</p>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2"
+                onClick={() => navigate('/admin/users')}
+              >
+                <Users className="h-4 w-4" />
+                <span className="hidden sm:inline">Users</span>
+              </Button>
               <Button 
                 variant="outline" 
                 className="flex items-center gap-2"
@@ -246,7 +255,7 @@ const AdminDashboard = () => {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => navigate(`/admin/review/${submission.id}`)}
+                          onClick={() => navigate(`/admin/review/${submission.vendor_name.toLowerCase().replace(/\s+/g, '-')}-${submission.id.split('-')[0]}`)}
                           className="flex items-center gap-1"
                         >
                           <Eye className="h-3 w-3" />
@@ -299,7 +308,7 @@ const AdminDashboard = () => {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => navigate(`/admin/review/${submission.id}`)}
+                          onClick={() => navigate(`/admin/review/${submission.vendor_name.toLowerCase().replace(/\s+/g, '-')}-${submission.id.split('-')[0]}`)}
                           className="w-full flex items-center gap-2 text-xs"
                         >
                           <Eye className="h-3 w-3" />
@@ -362,7 +371,7 @@ const AdminDashboard = () => {
                             variant="destructive" 
                             size="sm" 
                             className="flex-1 sm:flex-none"
-                            onClick={() => navigate(`/admin/review/${submission.id}`)}
+                            onClick={() => navigate(`/admin/review/${submission.vendor_name.toLowerCase().replace(/\s+/g, '-')}-${submission.id.split('-')[0]}`)}
                           >
                             Review Now
                           </Button>

@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import VendorDashboard from "./pages/VendorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminReview from "./pages/AdminReview";
+import UserManagement from "./pages/UserManagement";
 import ComplianceForm from "./pages/ComplianceForm";
 import SubmissionSuccess from "./pages/SubmissionSuccess";
 import CertificateViewer from "./pages/CertificateViewer";
@@ -50,9 +51,14 @@ const App = () => (
               <AdminDashboard />
             </ProtectedRoute>
           } />
-          <Route path="/admin/review/:id" element={
+          <Route path="/admin/review/:vendorSlug" element={
             <ProtectedRoute requiredRole="superadmin">
               <AdminReview />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/users" element={
+            <ProtectedRoute requiredRole="superadmin">
+              <UserManagement />
             </ProtectedRoute>
           } />
           

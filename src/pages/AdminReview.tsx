@@ -14,7 +14,7 @@ import type { Submission } from "@/hooks/useSubmissions";
 
 const AdminReview = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { vendorSlug } = useParams();
   const [decision, setDecision] = useState("");
   const [riskLevel, setRiskLevel] = useState("");
   const [comments, setComments] = useState("");
@@ -24,19 +24,32 @@ const AdminReview = () => {
 
   useEffect(() => {
     const fetchSubmission = async () => {
-      if (!id) {
-        console.log('No ID provided');
+      if (!vendorSlug) {
+        console.log('No vendor slug provided');
         return;
       }
       
-      console.log('Fetching submission with ID:', id);
+      // Extract the ID from the vendor slug (format: vendor-name-UUID_PART)
+      const parts = vendorSlug.split('-');
+      const idPart = parts[parts.length - 1]; // Last part should be the UUID fragment
+      
+      console.log('Fetching submission with vendor slug:', vendorSlug, 'ID part:', idPart);
       
       try {
-        const { data, error } = await supabase
+        // First try to find by ID fragment, then fall back to full search
+        let query = supabase
           .from('compliance_submissions')
-          .select('*')
-          .eq('id', id)
-          .single();
+          .select('*');
+          
+        if (idPart && idPart.length >= 8) {
+          query = query.or(`id.ilike.*${idPart}*`);
+        } else {
+          // Fallback: reconstruct vendor name from slug
+          const vendorName = parts.slice(0, -1).join(' ').replace(/-/g, ' ');
+          query = query.ilike('vendor_name', `%${vendorName}%`);
+        }
+        
+        const { data, error } = await query.limit(1).single();
 
         console.log('Supabase query result:', { data, error });
 
@@ -58,7 +71,7 @@ const AdminReview = () => {
     };
 
     fetchSubmission();
-  }, [id, navigate]);
+  }, [vendorSlug, navigate]);
 
   const handleDecision = async () => {
     if (!decision || !riskLevel || !submission) {
