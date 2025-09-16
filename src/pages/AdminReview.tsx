@@ -38,6 +38,8 @@ const AdminReview = () => {
           .eq('id', id)
           .single();
 
+        console.log('Supabase query result:', { data, error });
+
         if (error) throw error;
         
         setSubmission(data);
