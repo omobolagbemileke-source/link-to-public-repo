@@ -313,6 +313,7 @@ const LoginPage = () => {
       if (error) {
         throw error;
       }
+      // Note: Don't set loading to false here as the redirect will happen
     } catch (error: unknown) {
       console.error('Google login error:', error);
       const errorMessage = error instanceof Error 

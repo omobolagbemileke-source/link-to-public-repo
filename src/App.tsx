@@ -11,6 +11,7 @@ import AdminReview from "./pages/AdminReview";
 import ComplianceForm from "./pages/ComplianceForm";
 import SubmissionSuccess from "./pages/SubmissionSuccess";
 import CertificateViewer from "./pages/CertificateViewer";
+import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -56,6 +57,7 @@ const App = () => (
           } />
           
           {/* Public Routes */}
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/certificate/:id" element={<CertificateViewer />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
