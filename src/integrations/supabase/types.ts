@@ -89,6 +89,10 @@ export type Database = {
         Args: { form_data: Json }
         Returns: string
       }
+      get_user_profile: {
+        Args: { user_id?: string }
+        Returns: Json
+      }
       is_superadmin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
