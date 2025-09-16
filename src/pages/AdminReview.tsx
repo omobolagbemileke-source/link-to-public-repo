@@ -24,7 +24,12 @@ const AdminReview = () => {
 
   useEffect(() => {
     const fetchSubmission = async () => {
-      if (!id) return;
+      if (!id) {
+        console.log('No ID provided');
+        return;
+      }
+      
+      console.log('Fetching submission with ID:', id);
       
       try {
         const { data, error } = await supabase

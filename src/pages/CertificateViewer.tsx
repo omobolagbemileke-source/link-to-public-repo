@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Download, ArrowLeft, CheckCircle } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import runSeal from "@/assets/run-seal.png";
+import cdpoCertificate from "@/assets/cdpo-certificate.jpeg";
 
 interface CertificateData {
   id: string;
@@ -173,7 +173,7 @@ const CertificateViewer = () => {
             <CardContent className="p-12">
               {/* University Header */}
               <div className="text-center mb-8">
-                <img src={runSeal} alt="RUN Seal" className="h-16 w-16 mx-auto mb-4 object-contain" />
+                <img src={cdpoCertificate} alt="CDPO Certificate" className="h-16 w-16 mx-auto mb-4 object-contain" />
                 <h1 className="text-3xl font-bold text-primary mb-2">Data Protection Office</h1>
                 <div className="w-24 h-1 bg-primary/30 mx-auto"></div>
               </div>
@@ -267,7 +267,7 @@ const CertificateViewer = () => {
                   </div>
                   <div className="text-center md:text-right">
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2 p-2">
-                      <img src={runSeal} alt="University Seal" className="h-full w-full object-contain" />
+                      <img src={cdpoCertificate} alt="University Seal" className="h-full w-full object-contain" />
                     </div>
                     <p className="text-sm text-muted-foreground">University Seal</p>
                   </div>
