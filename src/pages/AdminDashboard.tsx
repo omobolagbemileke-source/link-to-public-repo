@@ -111,7 +111,24 @@ const AdminDashboard = () => {
               <p className="text-gray-600 mt-1 text-sm sm:text-base">Review and manage vendor compliance submissions</p>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2"
+                onClick={() => {
+                  const csvContent = "data:text/csv;charset=utf-8," 
+                    + "Vendor,Service,Status,Risk Level,Submitted,Reviewed\n"
+                    + submissions.map(s => 
+                        `"${s.vendor_name}","${s.service_name}","${s.status}","${s.risk_level}","${new Date(s.created_at).toLocaleDateString()}","${s.reviewed_at ? new Date(s.reviewed_at).toLocaleDateString() : 'N/A'}"`
+                      ).join("\n");
+                  const encodedUri = encodeURI(csvContent);
+                  const link = document.createElement("a");
+                  link.setAttribute("href", encodedUri);
+                  link.setAttribute("download", `vendor_compliance_export_${new Date().toISOString().split('T')[0]}.csv`);
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+              >
                 <Download className="h-4 w-4" />
                 <span className="hidden sm:inline">Export</span>
               </Button>

@@ -352,7 +352,7 @@ const LoginPage = () => {
             </div>
           </div>
           <CardTitle className="text-xl md:text-2xl font-bold text-center">
-            {isSignUp ? "Create Account" : "VendorGuard "}
+            {isSignUp ? "Create Account" : "DPO Vendor Compliance"}
           </CardTitle>
           <CardDescription className="text-center text-xs md:text-sm">
             {isSignUp ? "Create your vendor account to get started" : "Sign in to your account to continue"}
