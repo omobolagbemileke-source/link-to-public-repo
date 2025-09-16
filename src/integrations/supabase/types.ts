@@ -106,12 +106,23 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      user_stats: {
+        Row: {
+          admin_count: number | null
+          total_users: number | null
+          vendor_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       calculate_risk_level: {
         Args: { form_data: Json }
         Returns: string
+      }
+      delete_user_and_data: {
+        Args: { user_id: string }
+        Returns: boolean
       }
       get_user_profile: {
         Args: { user_id?: string }
