@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Mail, Lock, AlertCircle, Shield, User, Phone, Building } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, AlertCircle, User, Phone, Building } from "lucide-react";
 import { supabase } from '../lib/superbase';
+import runLogo from "@/assets/run-logo.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -347,9 +348,7 @@ const LoginPage = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 p-4 md:p-6">
           <div className="flex justify-center mb-2 md:mb-4">
-            <div className="bg-primary/10 p-2 md:p-3 rounded-full">
-              <Shield className="h-6 w-6 md:h-8 md:w-8 text-primary" />
-            </div>
+            <img src={runLogo} alt="RUN Logo" className="h-12 w-12 md:h-16 md:w-16" />
           </div>
           <CardTitle className="text-xl md:text-2xl font-bold text-center">
             {isSignUp ? "Create Account" : "DPO Vendor Compliance"}

@@ -71,7 +71,7 @@ const ComplianceForm = () => {
     },
     {
       id: "data_processing",
-      title: "Data",
+      title: "Data Processing",
       description: "Data processing and management procedures.",
       component: DataProcessingSection
     },
