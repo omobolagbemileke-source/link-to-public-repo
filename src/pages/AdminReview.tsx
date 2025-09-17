@@ -29,31 +29,44 @@ const AdminReview = () => {
         return;
       }
       
-      // Extract the ID from the vendor slug (format: vendor-name-UUID_PART)
-      const parts = vendorSlug.split('-');
-      const idPart = parts[parts.length - 1]; // Last part should be the UUID fragment
-      
-      console.log('Fetching submission with vendor slug:', vendorSlug, 'ID part:', idPart);
+      console.log('Fetching submission with vendor slug:', vendorSlug);
       
       try {
-        // First try to find by ID fragment, then fall back to full search
-        let query = supabase
-          .from('compliance_submissions')
-          .select('*');
-          
-        if (idPart && idPart.length >= 8) {
-          query = query.or(`id.ilike.*${idPart}*`);
-        } else {
-          // Fallback: reconstruct vendor name from slug
-          const vendorName = parts.slice(0, -1).join(' ').replace(/-/g, ' ');
-          query = query.ilike('vendor_name', `%${vendorName}%`);
-        }
+        // Try to find by vendor name slug first
+        const vendorName = vendorSlug.split('-').join(' ');
         
-        const { data, error } = await query.limit(1).single();
+        let { data, error } = await supabase
+          .from('compliance_submissions')
+          .select('*')
+          .ilike('vendor_name', `%${vendorName}%`)
+          .limit(1)
+          .maybeSingle();
+
+        // If not found by name, try to extract ID from slug
+        if (!data && vendorSlug.includes('-')) {
+          const parts = vendorSlug.split('-');
+          const idPart = parts[parts.length - 1];
+          
+          if (idPart && idPart.length >= 8) {
+            const { data: idData, error: idError } = await supabase
+              .from('compliance_submissions')
+              .select('*')
+              .ilike('id', `${idPart}%`)
+              .limit(1)
+              .maybeSingle();
+            
+            data = idData;
+            error = idError;
+          }
+        }
 
         console.log('Supabase query result:', { data, error });
 
         if (error) throw error;
+        
+        if (!data) {
+          throw new Error('Submission not found');
+        }
         
         setSubmission(data);
         setRiskLevel(data.risk_level);
